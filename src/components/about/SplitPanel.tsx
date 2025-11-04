@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-import { Code2, Palette, Zap, Coffee, Award, ArrowUpRight, Sparkles, X, Download, Mail, Phone, MapPin } from 'lucide-react';
+import { Code2, Brain, Zap, Rocket, Award, ArrowUpRight, Sparkles, X, Download, Mail, Phone, MapPin } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { siteConfig } from '@/config/site';
 
 export default function SplitPanel() {
   const [showResume, setShowResume] = useState(false);
@@ -10,15 +11,16 @@ export default function SplitPanel() {
   const stats = [
     { label: 'Years Experience', value: '5+', icon: Zap },
     { label: 'Projects Completed', value: '50+', icon: Code2 },
-    { label: 'Happy Clients', value: '30+', icon: Coffee },
-    { label: 'Awards Won', value: '12+', icon: Award },
+    { label: 'AI/ML Projects', value: '15+', icon: Brain },
+    { label: 'Technologies', value: '20+', icon: Rocket },
   ];
 
-  const skills = [
-    { name: 'React & Next.js', level: 95 },
-    { name: 'TypeScript', level: 90 },
-    { name: 'Node.js', level: 85 },
-    { name: 'UI/UX Design', level: 80 },
+  // Skills from site.ts
+  const topSkills = [
+    { name: 'SvelteKit & React', level: 95 },
+    { name: 'Django REST & FastAPI', level: 95 },
+    { name: 'AI/ML (scikit-learn)', level: 90 },
+    { name: 'PostgreSQL & SQL', level: 90 },
   ];
 
   return (
@@ -90,13 +92,13 @@ export default function SplitPanel() {
 
                   {/* Name */}
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-1 tracking-tight text-center">
-                    Your Name
+                    {siteConfig.name}
                   </h3>
                   
                   {/* Role with underline animation */}
                   <div className="relative mb-2.5 sm:mb-3">
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium">
-                      Full Stack Developer
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium text-center">
+                      {siteConfig.title}
                     </p>
                     <motion.div
                       initial={{ scaleX: 0 }}
@@ -108,18 +110,24 @@ export default function SplitPanel() {
 
                   {/* Social Links - Minimal */}
                   <div className="flex gap-2.5 sm:gap-3">
-                    {['GitHub', 'LinkedIn', 'Twitter'].map((social, i) => (
-                      <motion.button
-                        key={social}
+                    {[
+                      { name: 'GitHub', href: siteConfig.social.github },
+                      { name: 'LinkedIn', href: siteConfig.social.linkedin },
+                    ].map((social, i) => (
+                      <motion.a
+                        key={social.name}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 + i * 0.1 }}
                         whileHover={{ y: -2 }}
                         className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors relative group/link"
                       >
-                        {social}
+                        {social.name}
                         <span className="absolute -bottom-1 left-0 w-0 h-px bg-blue-500 group-hover/link:w-full transition-all duration-300" />
-                      </motion.button>
+                      </motion.a>
                     ))}
                   </div>
                 </div>
@@ -193,7 +201,7 @@ export default function SplitPanel() {
                     <div className="flex items-center gap-2">
                       <div className="w-1 h-4 sm:h-5 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
                       <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-white tracking-tight">
-                        About Me
+                        {siteConfig.about.title}
                       </h3>
                     </div>
                     <motion.div
@@ -204,13 +212,9 @@ export default function SplitPanel() {
                     </motion.div>
                   </div>
                   
-                  {/* Bio Text */}
+                  {/* Bio Text - First 3 paragraphs */}
                   <div className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">
-                    {[
-                      "Hey there! I'm a passionate full-stack developer who loves turning ideas into beautiful, functional applications.",
-                      "With over 5 years of experience, I specialize in React, Next.js, and modern web technologies.",
-                      "When I'm not coding, you'll find me contributing to open source or exploring the latest web technologies."
-                    ].map((text, i) => (
+                    {siteConfig.about.description.slice(0, 3).map((text, i) => (
                       <motion.p
                         key={i}
                         initial={{ opacity: 0, y: 10 }}
@@ -249,13 +253,13 @@ export default function SplitPanel() {
                   <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
                     <div className="w-1 h-4 sm:h-5 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full" />
                     <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-white tracking-tight">
-                      Expertise
+                      Top Skills
                     </h3>
                   </div>
 
                   {/* Skills */}
                   <div className="space-y-2.5 sm:space-y-3">
-                    {skills.map((skill, index) => (
+                    {topSkills.map((skill, index) => (
                       <div key={index}>
                         <div className="flex justify-between items-baseline mb-1">
                           <motion.span 
@@ -380,10 +384,10 @@ export default function SplitPanel() {
                     className="text-center mb-6"
                   >
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                      Your Name
+                      {siteConfig.name}
                     </h2>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Full Stack Developer
+                      {siteConfig.title}
                     </p>
                   </motion.div>
 
@@ -394,22 +398,22 @@ export default function SplitPanel() {
                     transition={{ delay: 0.4 }}
                     className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"
                   >
-                    {[
-                      { icon: Mail, label: 'your@email.com' },
-                      { icon: Phone, label: '+1 234 567 890' },
-                      { icon: MapPin, label: 'San Francisco, CA' },
-                    ].map((item, i) => (
-                      <motion.div
-                        key={i}
-                        whileHover={{ y: -2 }}
-                        className="flex items-center gap-2 p-3 rounded-lg bg-gray-100 dark:bg-gray-800 group cursor-pointer"
-                      >
-                        <item.icon className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
-                        <span className="text-xs text-gray-700 dark:text-gray-300">
-                          {item.label}
-                        </span>
-                      </motion.div>
-                    ))}
+                    {siteConfig.contact.info.map((item, i) => {
+                      const IconComponent = item.icon === 'Mail' ? Mail : item.icon === 'Phone' ? Phone : MapPin;
+                      return (
+                        <motion.a
+                          key={i}
+                          href={item.href || undefined}
+                          whileHover={{ y: -2 }}
+                          className="flex items-center gap-2 p-3 rounded-lg bg-gray-100 dark:bg-gray-800 group cursor-pointer"
+                        >
+                          <IconComponent className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
+                          <span className="text-xs text-gray-700 dark:text-gray-300">
+                            {item.value}
+                          </span>
+                        </motion.a>
+                      );
+                    })}
                   </motion.div>
 
                   {/* Summary */}
@@ -424,14 +428,14 @@ export default function SplitPanel() {
                       Professional Summary
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                      Passionate full-stack developer with 5+ years of experience building scalable web applications. 
-                      Specialized in React, Next.js, and modern JavaScript frameworks. Strong focus on clean code, 
-                      performance optimization, and user experience.
+                      {siteConfig.about.description[0]}
                     </p>
                   </motion.div>
 
                   {/* Download Button */}
-                  <motion.button
+                  <motion.a
+                    href={siteConfig.about.resume}
+                    download
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.6 }}
@@ -441,7 +445,7 @@ export default function SplitPanel() {
                   >
                     <Download className="w-4 h-4 group-hover:animate-bounce" />
                     Download Full Resume (PDF)
-                  </motion.button>
+                  </motion.a>
                 </div>
 
                 {/* Decorative corner */}
