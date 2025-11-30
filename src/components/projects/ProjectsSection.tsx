@@ -47,7 +47,7 @@ export default function ProjectsSection() {
         />
 
         {/* Grid Pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `

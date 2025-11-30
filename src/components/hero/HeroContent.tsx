@@ -67,7 +67,7 @@ export default function HeroContent() {
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
               initial={{ backgroundPosition: '0% 50%' }}
-              animate={{ 
+              animate={{
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
               }}
               transition={{
@@ -78,7 +78,7 @@ export default function HeroContent() {
                 },
               }}
             >
-              <span 
+              <span
                 className="bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent"
                 style={{
                   backgroundSize: '200% 100%',
@@ -86,7 +86,7 @@ export default function HeroContent() {
               >
                 {siteConfig.hero.name}
               </span>
-              
+
               <motion.span
                 className="absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-blue-600/15 to-indigo-700/15 blur-2xl"
                 initial={{ opacity: 0 }}
@@ -169,7 +169,7 @@ export default function HeroContent() {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
