@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 
@@ -14,16 +14,16 @@ export default function HeroContent() {
         delayChildren: 0.3,
       },
     },
-  };
+  } as Variants;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
+      transition: { duration: 0.6, ease: 'easeOut' as const },
     },
-  };
+  } as Variants;
 
   // Name animation with particle assembly effect
   const nameVariants = {
@@ -38,10 +38,10 @@ export default function HeroContent() {
       filter: 'blur(0px)',
       transition: {
         duration: 1.2,
-        ease: [0.6, 0.05, 0.01, 0.9] as const,
+        ease: [0.6, 0.05, 0.01, 0.9] as [number, number, number, number],
       },
     },
-  };
+  } as Variants;
 
   const socialLinks = [
     { icon: Github, href: siteConfig.social.github },
