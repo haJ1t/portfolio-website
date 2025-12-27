@@ -36,10 +36,6 @@ export default function HeroContent() {
       opacity: 1,
       scale: 1,
       filter: 'blur(0px)',
-      transition: {
-        duration: 1.2,
-        ease: [0.6, 0.05, 0.01, 0.9],
-      },
     },
   };
 
@@ -61,8 +57,12 @@ export default function HeroContent() {
         <div className="space-y-4">
           {/* Name with Particle Assembly + Gradient Wave */}
           <motion.div
-            variants={nameVariants as unknown as Variants}
+            variants={nameVariants}
             className="relative"
+            transition={{
+              duration: 1.2,
+              ease: [0.6, 0.05, 0.01, 0.9],
+            }}
           >
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
