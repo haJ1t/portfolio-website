@@ -38,10 +38,10 @@ export default function HeroContent() {
       filter: 'blur(0px)',
       transition: {
         duration: 1.2,
-        ease: [0.6, 0.05, 0.01, 0.9] as [number, number, number, number],
+        ease: [0.6, 0.05, 0.01, 0.9],
       },
     },
-  } as Variants;
+  };
 
   const socialLinks = [
     { icon: Github, href: siteConfig.social.github },
@@ -61,7 +61,7 @@ export default function HeroContent() {
         <div className="space-y-4">
           {/* Name with Particle Assembly + Gradient Wave */}
           <motion.div
-            variants={nameVariants}
+            variants={nameVariants as unknown as Variants}
             className="relative"
           >
             <motion.h1
