@@ -37,7 +37,7 @@ export default function HeroContent() {
       scale: 1,
       filter: 'blur(0px)',
     },
-  };
+  } as Variants;
 
   const socialLinks = [
     { icon: Github, href: siteConfig.social.github },
@@ -58,6 +58,8 @@ export default function HeroContent() {
           {/* Name with Particle Assembly + Gradient Wave */}
           <motion.div
             variants={nameVariants}
+            initial="hidden"
+            animate="visible"
             className="relative"
             transition={{
               duration: 1.2,
