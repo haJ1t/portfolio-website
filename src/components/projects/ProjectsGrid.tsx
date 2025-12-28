@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProjectCard from './ProjectCard';
 
 export default function ProjectsGrid() {
@@ -42,11 +42,21 @@ export default function ProjectsGrid() {
     },
   ];
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <motion.div 
-      className="flex gap-3 justify-center items-center"
-      layout
-    >
+    <div className={`relative ${isMobile ? 'w-full' : ''}`}>
+      <motion.div 
+        className={`${isMobile ? 'grid grid-cols-1 gap-4 w-full' : 'flex gap-3 justify-center items-center'}`}
+        layout={!isMobile}
+      >
       {projects.map((project, index) => (
         <ProjectCard
           key={project.id}
@@ -55,8 +65,11 @@ export default function ProjectsGrid() {
           isExpanded={expandedId === project.id}
           onExpand={() => setExpandedId(project.id)}
           onCollapse={() => setExpandedId(null)}
+          totalCards={projects.length}
+          expandedId={expandedId}
         />
       ))}
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

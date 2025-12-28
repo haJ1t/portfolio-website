@@ -1,12 +1,22 @@
 'use client';
 
-import { motion, cubicBezier, type Variants } from 'framer-motion';
+import { motion, cubicBezier, useReducedMotion, type Variants } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { siteConfig } from '@/config/site';
+import { useEffect, useState } from 'react';
 
 export default function HeroContent() {
   // ✅ Typed easing (TS-safe)
   const heroEase = cubicBezier(0.6, 0.05, 0.01, 0.9);
+  const prefersReducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -35,7 +45,7 @@ export default function HeroContent() {
     hidden: {
       opacity: 0,
       scale: 0.8,
-      filter: 'blur(10px)',
+      filter: 'blur(0px)', // Blur'u tamamen kaldır
     },
     visible: {
       opacity: 1,
@@ -90,28 +100,31 @@ export default function HeroContent() {
                 {siteConfig.hero.name}
               </span>
 
-              {/* Glow */}
-              <motion.span
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-blue-600/15 to-indigo-700/15 blur-2xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 0.4, 0] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
+              {/* Glow - Reduced on mobile */}
+              {!isMobile && (
+                <motion.span
+                  aria-hidden
+                  className="absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-blue-600/15 to-indigo-700/15 blur-2xl"
+                  initial={{ opacity: 0 }}
+                  animate={prefersReducedMotion ? { opacity: 0 } : { opacity: [0, 0.4, 0] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                  style={{ willChange: 'opacity' }}
+                />
+              )}
             </motion.h1>
 
-            {/* PARTICLES */}
-            {[...Array(8)].map((_, i) => (
+            {/* PARTICLES - Reduced on mobile */}
+            {!prefersReducedMotion && [...Array(isMobile ? 4 : 8)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-1 bg-blue-500/30 rounded-full"
                 initial={{
-                  x: Math.cos((i * Math.PI * 2) / 8) * 100,
-                  y: Math.sin((i * Math.PI * 2) / 8) * 100,
+                  x: Math.cos((i * Math.PI * 2) / (isMobile ? 4 : 8)) * 100,
+                  y: Math.sin((i * Math.PI * 2) / (isMobile ? 4 : 8)) * 100,
                   opacity: 1,
                   scale: 1,
                 }}
@@ -126,7 +139,7 @@ export default function HeroContent() {
                   delay: i * 0.1,
                   ease: 'easeOut',
                 }}
-                style={{ left: '50%', top: '50%' }}
+                style={{ left: '50%', top: '50%', willChange: 'transform, opacity' }}
               />
             ))}
           </motion.div>

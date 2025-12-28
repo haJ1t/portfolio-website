@@ -1,16 +1,26 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import ProjectsGrid from './ProjectsGrid';
 
 export default function ProjectsSection() {
+  const prefersReducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <section id="projects" className="relative w-full min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center py-20 overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Orbs */}
+        {/* Gradient Orbs - Reduced animation on mobile */}
         <motion.div
-          animate={{
+          animate={prefersReducedMotion ? {} : {
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
           }}
@@ -20,9 +30,10 @@ export default function ProjectsSection() {
             ease: "easeInOut"
           }}
           className="absolute top-20 left-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+          style={{ willChange: 'transform, opacity' }}
         />
         <motion.div
-          animate={{
+          animate={prefersReducedMotion ? {} : {
             scale: [1.2, 1, 1.2],
             opacity: [0.2, 0.4, 0.2],
           }}
@@ -32,19 +43,23 @@ export default function ProjectsSection() {
             ease: "easeInOut"
           }}
           className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"
+          style={{ willChange: 'transform, opacity' }}
         />
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.3, 0.2],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl"
-        />
+        {!isMobile && (
+          <motion.div
+            animate={prefersReducedMotion ? {} : {
+              scale: [1, 1.3, 1],
+              opacity: [0.2, 0.3, 0.2],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl"
+            style={{ willChange: 'transform, opacity' }}
+          />
+        )}
 
         {/* Grid Pattern */}
         <div
@@ -58,14 +73,15 @@ export default function ProjectsSection() {
           }}
         />
 
-        {/* Floating Dots */}
-        {[...Array(20)].map((_, i) => (
+        {/* Floating Dots - Reduced on mobile */}
+        {!prefersReducedMotion && [...Array(isMobile ? 5 : 20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-white/20 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
+              willChange: 'transform, opacity',
             }}
             animate={{
               y: [0, -30, 0],
@@ -111,7 +127,7 @@ export default function ProjectsSection() {
       </motion.div>
 
       {/* Projects Grid - Tam Genişlik */}
-      <div className="relative z-10 w-full flex items-center justify-center px-6">
+      <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6">
         <ProjectsGrid />
       </div>
     </section>
