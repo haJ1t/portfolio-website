@@ -51,7 +51,7 @@ export default function HeroContent() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between overflow-hidden">
+    <section className="relative w-full h-full flex flex-col justify-between overflow-hidden">
       {/* MAIN HERO */}
       <motion.div
         className="flex-1 flex items-center justify-center text-center px-4"
@@ -174,7 +174,7 @@ export default function HeroContent() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="pb-12 flex justify-center"
+        className="pb-8 md:pb-12 flex justify-center flex-shrink-0"
       >
         <motion.a
           href="#about"
