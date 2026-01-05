@@ -1,86 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import ContactForm from './ContactForm';
 import SocialLinks from './SocialLinks';
 
+
+
 export default function ContactSection() {
   return (
-    <section id="contact" className="relative w-full min-h-screen bg-[#0a0a0a] flex items-center justify-center pt-16 pb-8 px-4 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Orbs */}
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.4, 0.2],
-            x: [0, 50, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-10 left-20 w-[450px] h-[450px] bg-blue-500/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.3, 0.5, 0.3],
-            x: [0, -50, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute bottom-10 right-20 w-[450px] h-[450px] bg-purple-500/20 rounded-full blur-3xl"
-        />
-
-        {/* Animated Lines */}
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            style={{
-              top: `${20 + i * 15}%`,
-              left: 0,
-              right: 0,
-            }}
-            animate={{
-              opacity: [0, 0.5, 0],
-              scaleX: [0, 1, 0],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 0.5,
-            }}
-          />
-        ))}
-
-        {/* Floating Particles */}
-        {[...Array(25)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -50, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 3,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-            }}
-          />
-        ))}
-      </div>
-
+    <section id="contact" className="relative w-full min-h-screen flex items-center justify-center pt-16 pb-8 px-4 overflow-hidden">
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         {/* Header */}
@@ -95,11 +24,11 @@ export default function ContactSection() {
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
-            transition={{ 
+            transition={{
               type: "spring",
               stiffness: 200,
               damping: 15,
-              delay: 0.2 
+              delay: 0.2
             }}
             className="inline-block mb-4"
           >

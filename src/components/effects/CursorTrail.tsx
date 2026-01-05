@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Particle {
   x: number;
@@ -16,8 +16,24 @@ interface Particle {
 export default function CursorTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
+  const animationFrameIdRef = useRef<number | null>(null);
+  const [isMobile, setIsMobile] = useState(true); // Default to true to prevent flash on mobile
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check immediately
+    checkMobile();
+
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -98,16 +114,21 @@ export default function CursorTrail() {
         return true;
       });
 
-      requestAnimationFrame(animate);
+      animationFrameIdRef.current = requestAnimationFrame(animate);
     };
 
-    requestAnimationFrame(animate);
+    animationFrameIdRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <canvas
