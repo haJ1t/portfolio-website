@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -11,24 +12,40 @@ export default function ContactForm() {
     message: '',
   });
 
+  const form = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
-    setFormData({ name: '', email: '', message: '' });
+    if (!form.current) return;
 
-    // Hide success message after 4 seconds
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 4000);
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
+      );
+
+      setIsSubmitting(false);
+      setShowSuccess(true);
+      setFormData({ name: '', email: '', message: '' });
+
+      // Hide success message after 4 seconds
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 4000);
+    } catch (err) {
+      console.error('EmailJS Error:', err);
+      setIsSubmitting(false);
+      setError('Failed to send message. Please try again later.');
+      setTimeout(() => setError(null), 5000);
+    }
   };
 
   return (
@@ -90,11 +107,32 @@ export default function ContactForm() {
         )}
       </AnimatePresence>
 
+      {/* Error Toast Notification */}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-full mx-4"
+          >
+            <div className="bg-red-500/90 p-4 rounded-2xl shadow-2xl backdrop-blur-sm border border-white/20 flex items-center gap-3">
+              <AlertCircle className="w-6 h-6 text-white" />
+              <p className="text-white font-medium">{error}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Form */}
       <motion.form
+        ref={form}
         onSubmit={handleSubmit}
         className="p-7 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl space-y-5"
       >
+        {/* Hidden inputs for EmailJS template variables if needed */}
+        <input type="hidden" name="to_name" value="Halit" />
         {/* Name Input */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -107,6 +145,7 @@ export default function ContactForm() {
           </label>
           <input
             type="text"
+            name="user_name"
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -127,6 +166,7 @@ export default function ContactForm() {
           </label>
           <input
             type="email"
+            name="user_email"
             required
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -146,6 +186,7 @@ export default function ContactForm() {
             Message
           </label>
           <textarea
+            name="message"
             required
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
