@@ -40,7 +40,7 @@ export default function SplitPanel() {
               <div className="relative p-4 sm:p-5 rounded-xl bg-white/5 dark:bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden group">
                 {/* Subtle gradient on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-700" />
-                
+
                 {/* Scanline effect */}
                 <motion.div
                   animate={{ y: ['0%', '100%'] }}
@@ -94,7 +94,7 @@ export default function SplitPanel() {
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-1 tracking-tight text-center">
                     {siteConfig.name}
                   </h3>
-                  
+
                   {/* Role with underline animation */}
                   <div className="relative mb-2.5 sm:mb-3">
                     <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium text-center">
@@ -149,7 +149,7 @@ export default function SplitPanel() {
                     <div className="relative p-3 sm:p-3.5 rounded-xl bg-white/5 dark:bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden group hover:border-white/20 transition-colors h-full flex flex-col justify-center">
                       {/* Corner accent */}
                       <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      
+
                       <div className="relative">
                         {/* Icon */}
                         <motion.div
@@ -194,7 +194,7 @@ export default function SplitPanel() {
               <div className="relative p-4 sm:p-5 rounded-xl bg-white/5 dark:bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden group flex-1 flex flex-col">
                 {/* Gradient line accent */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-                
+
                 <div className="relative flex-1 flex flex-col">
                   {/* Header */}
                   <div className="flex items-center justify-between mb-2.5 sm:mb-3">
@@ -211,7 +211,7 @@ export default function SplitPanel() {
                       <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
                     </motion.div>
                   </div>
-                  
+
                   {/* Bio Text - First 3 paragraphs */}
                   <div className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">
                     {siteConfig.about.description.slice(0, 3).map((text, i) => (
@@ -247,7 +247,7 @@ export default function SplitPanel() {
               <div className="relative p-4 sm:p-5 rounded-xl bg-white/5 dark:bg-white/5 backdrop-blur-md border border-white/10 overflow-hidden">
                 {/* Gradient line accent */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
-                
+
                 <div className="relative">
                   {/* Header */}
                   <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
@@ -262,7 +262,7 @@ export default function SplitPanel() {
                     {topSkills.map((skill, index) => (
                       <div key={index}>
                         <div className="flex justify-between items-baseline mb-1">
-                          <motion.span 
+                          <motion.span
                             initial={{ opacity: 0, x: -10 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
@@ -270,7 +270,7 @@ export default function SplitPanel() {
                           >
                             {skill.name}
                           </motion.span>
-                          <motion.span 
+                          <motion.span
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             transition={{ delay: index * 0.1 + 0.2 }}
@@ -279,7 +279,7 @@ export default function SplitPanel() {
                             {skill.level}%
                           </motion.span>
                         </div>
-                        
+
                         {/* Minimal progress bar */}
                         <div className="relative h-1 bg-white/5 rounded-full overflow-hidden">
                           <motion.div

@@ -13,18 +13,55 @@ export default function ContactForm() {
   });
 
   const form = useRef<HTMLFormElement>(null);
+  const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const sanitizeInput = (text: string) => {
+    return text.replace(/[<>]/g, '');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.current) return;
 
+    // Rate limiting (1 minute cooldown)
+    const now = Date.now();
+    if (now - lastSubmitTime < 60000) {
+      setError('Please wait a minute before sending another message.');
+      setTimeout(() => setError(null), 5000);
+      return;
+    }
+
+    // Input validation
+    if (formData.name.length > 50) {
+      setError('Name is too long (max 50 chars).');
+      return;
+    }
+    if (formData.message.length > 1000) {
+      setError('Message is too long (max 1000 chars).');
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
     try {
+      // Create a clean form object with sanitized data
+      const cleanData = {
+        user_name: sanitizeInput(formData.name),
+        user_email: formData.email, // Email input type handles basic validation
+        message: sanitizeInput(formData.message),
+      };
+
+      // We need to manually set the values in the form ref for EmailJS
+      if (form.current) {
+        const nameInput = form.current.querySelector('input[name="user_name"]') as HTMLInputElement;
+        const messageInput = form.current.querySelector('textarea[name="message"]') as HTMLTextAreaElement;
+        if (nameInput) nameInput.value = cleanData.user_name;
+        if (messageInput) messageInput.value = cleanData.message;
+      }
+
       await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
@@ -32,6 +69,7 @@ export default function ContactForm() {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
       );
 
+      setLastSubmitTime(now);
       setIsSubmitting(false);
       setShowSuccess(true);
       setFormData({ name: '', email: '', message: '' });

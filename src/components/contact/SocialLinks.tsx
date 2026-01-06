@@ -5,37 +5,37 @@ import { Github, Linkedin, Twitter, Instagram, Mail } from 'lucide-react';
 
 export default function SocialLinks() {
   const socials = [
-    { 
-      icon: Mail, 
-      href: 'mailto:hello@example.com', 
+    {
+      icon: Mail,
+      href: 'mailto:hello@example.com',
       label: 'Email Me',
       gradient: 'from-blue-500 via-cyan-500 to-teal-500',
       hoverGradient: 'hover:from-blue-400 hover:via-cyan-400 hover:to-teal-400'
     },
-    { 
-      icon: Github, 
-      href: '#', 
+    {
+      icon: Github,
+      href: '#',
       label: 'GitHub',
       gradient: 'from-gray-700 via-gray-800 to-black',
       hoverGradient: 'hover:from-gray-600 hover:via-gray-700 hover:to-gray-900'
     },
-    { 
-      icon: Linkedin, 
-      href: '#', 
+    {
+      icon: Linkedin,
+      href: '#',
       label: 'LinkedIn',
       gradient: 'from-blue-600 via-blue-700 to-blue-800',
       hoverGradient: 'hover:from-blue-500 hover:via-blue-600 hover:to-blue-700'
     },
-    { 
-      icon: Twitter, 
-      href: '#', 
+    {
+      icon: Twitter,
+      href: '#',
       label: 'Twitter',
       gradient: 'from-sky-500 via-sky-600 to-blue-600',
       hoverGradient: 'hover:from-sky-400 hover:via-sky-500 hover:to-blue-500'
     },
-    { 
-      icon: Instagram, 
-      href: '#', 
+    {
+      icon: Instagram,
+      href: '#',
       label: 'Instagram',
       gradient: 'from-purple-600 via-pink-600 to-orange-500',
       hoverGradient: 'hover:from-purple-500 hover:via-pink-500 hover:to-orange-400'
@@ -53,7 +53,7 @@ export default function SocialLinks() {
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ 
+          transition={{
             delay: 0.1 + index * 0.08,
             type: "spring",
             stiffness: 100
@@ -78,7 +78,7 @@ export default function SocialLinks() {
           >
             <social.icon className="w-5 h-5 text-white" />
           </motion.div>
-          
+
           {/* Label */}
           <span className="text-white font-semibold text-base relative z-10">
             {social.label}
