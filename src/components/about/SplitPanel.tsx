@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { m, useMotionValue, useSpring, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Code2, Brain, Zap, Rocket, ArrowUpRight, Sparkles, X, Download, Mail, Phone, MapPin } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
 import { siteConfig } from '@/config/site';
@@ -40,7 +40,7 @@ export default function SplitPanel() {
       <div className="w-full px-3 sm:px-4 py-4 sm:py-6">
         <div className="grid md:grid-cols-2 gap-2.5 sm:gap-3 max-w-7xl mx-auto">
           {/* LEFT PANEL */}
-          <motion.div
+          <m.div
             initial={{ x: -50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
@@ -55,7 +55,7 @@ export default function SplitPanel() {
 
                 {/* Scanline effect - disabled on mobile */}
                 {shouldAnimate && (
-                  <motion.div
+                  <m.div
                     animate={{ y: ['0%', '100%'] }}
                     transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
                     className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 pointer-events-none"
@@ -64,13 +64,13 @@ export default function SplitPanel() {
 
                 <div className="relative flex flex-col items-center">
                   {/* Minimal Avatar */}
-                  <motion.div
+                  <m.div
                     whileHover={{ scale: 1.05 }}
                     className="relative w-20 h-20 sm:w-24 sm:h-24 mb-2.5 sm:mb-3"
                   >
                     {/* Rotating border */}
                     <svg className="absolute inset-0 w-full h-full -rotate-90">
-                      <motion.circle
+                      <m.circle
                         cx="50%"
                         cy="50%"
                         r="45%"
@@ -98,14 +98,14 @@ export default function SplitPanel() {
 
                     {/* Pulse ring - disabled on mobile */}
                     {shouldAnimate && (
-                      <motion.div
+                      <m.div
                         animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
                         transition={{ duration: 2, repeat: Infinity }}
                         className="absolute inset-0 rounded-full border border-blue-500/30"
                         style={{ willChange: 'transform, opacity' }}
                       />
                     )}
-                  </motion.div>
+                  </m.div>
 
                   {/* Name */}
                   <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-1 tracking-tight text-center">
@@ -117,7 +117,7 @@ export default function SplitPanel() {
                     <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium text-center">
                       {siteConfig.title}
                     </p>
-                    <motion.div
+                    <m.div
                       initial={{ scaleX: 0 }}
                       whileInView={{ scaleX: 1 }}
                       transition={{ duration: 0.8, delay: 0.3 }}
@@ -131,7 +131,7 @@ export default function SplitPanel() {
                       { name: 'GitHub', href: siteConfig.social.github },
                       { name: 'LinkedIn', href: siteConfig.social.linkedin },
                     ].map((social, i) => (
-                      <motion.a
+                      <m.a
                         key={social.name}
                         href={social.href}
                         target="_blank"
@@ -144,7 +144,7 @@ export default function SplitPanel() {
                       >
                         {social.name}
                         <span className="absolute -bottom-1 left-0 w-0 h-px bg-blue-500 group-hover/link:w-full transition-all duration-300" />
-                      </motion.a>
+                      </m.a>
                     ))}
                   </div>
                 </div>
@@ -154,7 +154,7 @@ export default function SplitPanel() {
             {/* Stats Grid - Clean & Minimal */}
             <div className="grid grid-cols-2 gap-2 sm:gap-2.5 flex-1">
               {stats.map((stat, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -169,12 +169,12 @@ export default function SplitPanel() {
 
                       <div className="relative">
                         {/* Icon */}
-                        <motion.div
+                        <m.div
                           whileHover={{ rotate: 15 }}
                           className="inline-flex p-1.5 rounded-lg bg-white/5 mb-1.5 sm:mb-2"
                         >
                           <stat.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-400" />
-                        </motion.div>
+                        </m.div>
 
                         {/* Value */}
                         <div className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mb-0.5 tracking-tight">
@@ -188,18 +188,18 @@ export default function SplitPanel() {
                       </div>
 
                       {/* Hover line */}
-                      <motion.div
+                      <m.div
                         className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
                       />
                     </div>
                   </TiltCard>
-                </motion.div>
+                </m.div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           {/* RIGHT PANEL */}
-          <motion.div
+          <m.div
             initial={{ x: 50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
@@ -221,18 +221,18 @@ export default function SplitPanel() {
                         {siteConfig.about.title}
                       </h3>
                     </div>
-                    <motion.div
+                    <m.div
                       animate={shouldAnimate ? { rotate: [0, 90, 0] } : {}}
                       transition={shouldAnimate ? { duration: 3, repeat: Infinity } : {}}
                     >
                       <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
-                    </motion.div>
+                    </m.div>
                   </div>
 
                   {/* Bio Text - First 3 paragraphs */}
                   <div className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1">
                     {siteConfig.about.description.slice(0, 3).map((text, i) => (
-                      <motion.p
+                      <m.p
                         key={i}
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -241,12 +241,12 @@ export default function SplitPanel() {
                         className="relative pl-2.5 sm:pl-3 border-l border-white/10"
                       >
                         {text}
-                      </motion.p>
+                      </m.p>
                     ))}
                   </div>
 
                   {/* CTA Button */}
-                  <motion.button
+                  <m.button
                     onClick={() => setShowResume(true)}
                     whileHover={{ x: 5 }}
                     whileTap={{ scale: 0.98 }}
@@ -254,7 +254,7 @@ export default function SplitPanel() {
                   >
                     <span className="font-medium">View Full Resume</span>
                     <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                  </motion.button>
+                  </m.button>
                 </div>
               </div>
             </TiltCard>
@@ -279,27 +279,27 @@ export default function SplitPanel() {
                     {topSkills.map((skill, index) => (
                       <div key={index}>
                         <div className="flex justify-between items-baseline mb-1">
-                          <motion.span
+                          <m.span
                             initial={{ opacity: 0, x: -10 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
                             className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300"
                           >
                             {skill.name}
-                          </motion.span>
-                          <motion.span
+                          </m.span>
+                          <m.span
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             transition={{ delay: index * 0.1 + 0.2 }}
                             className="text-xs text-gray-500 dark:text-gray-400 font-mono"
                           >
                             {skill.level}%
-                          </motion.span>
+                          </m.span>
                         </div>
 
                         {/* Minimal progress bar */}
                         <div className="relative h-1 bg-white/5 rounded-full overflow-hidden">
-                          <motion.div
+                          <m.div
                             initial={{ width: 0 }}
                             whileInView={{ width: `${skill.level}%` }}
                             viewport={{ once: true }}
@@ -308,14 +308,14 @@ export default function SplitPanel() {
                           >
                             {/* Shimmer - disabled on mobile */}
                             {shouldAnimate && (
-                              <motion.div
+                              <m.div
                                 animate={{ x: ['-100%', '200%'] }}
                                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
                                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
                                 style={{ willChange: 'transform' }}
                               />
                             )}
-                          </motion.div>
+                          </m.div>
                         </div>
                       </div>
                     ))}
@@ -323,7 +323,7 @@ export default function SplitPanel() {
                 </div>
               </div>
             </TiltCard>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
@@ -332,7 +332,7 @@ export default function SplitPanel() {
         {showResume && (
           <>
             {/* Backdrop */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -340,7 +340,7 @@ export default function SplitPanel() {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             >
               {/* Modal */}
-              <motion.div
+              <m.div
                 initial={{ scale: 0.8, opacity: 0, rotateX: -15 }}
                 animate={{ scale: 1, opacity: 1, rotateX: 0 }}
                 exit={{ scale: 0.8, opacity: 0, rotateX: 15 }}
@@ -352,30 +352,30 @@ export default function SplitPanel() {
                 {/* Gradient Header */}
                 <div className="relative h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 overflow-hidden">
                   {/* Animated circles */}
-                  <motion.div
+                  <m.div
                     animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
                     transition={{ duration: 4, repeat: Infinity }}
                     className="absolute -top-10 -left-10 w-40 h-40 bg-white/20 rounded-full blur-3xl"
                   />
-                  <motion.div
+                  <m.div
                     animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
                     transition={{ duration: 4, repeat: Infinity, delay: 2 }}
                     className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/20 rounded-full blur-3xl"
                   />
 
                   {/* Close button */}
-                  <motion.button
+                  <m.button
                     whileHover={{ scale: 1.1, rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => setShowResume(false)}
                     className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full transition-colors z-10"
                   >
                     <X className="w-5 h-5 text-white" />
-                  </motion.button>
+                  </m.button>
 
                   {/* Avatar */}
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-                    <motion.div
+                    <m.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
@@ -385,19 +385,19 @@ export default function SplitPanel() {
                         👨‍💻
                       </div>
                       {/* Online indicator */}
-                      <motion.div
+                      <m.div
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
                         className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"
                       />
-                    </motion.div>
+                    </m.div>
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="pt-16 pb-8 px-8">
                   {/* Name & Title */}
-                  <motion.div
+                  <m.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -409,10 +409,10 @@ export default function SplitPanel() {
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       {siteConfig.title}
                     </p>
-                  </motion.div>
+                  </m.div>
 
                   {/* Contact Info */}
-                  <motion.div
+                  <m.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.4 }}
@@ -421,7 +421,7 @@ export default function SplitPanel() {
                     {siteConfig.contact.info.map((item, i) => {
                       const IconComponent = item.icon === 'Mail' ? Mail : item.icon === 'Phone' ? Phone : MapPin;
                       return (
-                        <motion.a
+                        <m.a
                           key={i}
                           href={item.href || undefined}
                           whileHover={{ y: -2 }}
@@ -431,13 +431,13 @@ export default function SplitPanel() {
                           <span className="text-xs text-gray-700 dark:text-gray-300">
                             {item.value}
                           </span>
-                        </motion.a>
+                        </m.a>
                       );
                     })}
-                  </motion.div>
+                  </m.div>
 
                   {/* Summary */}
-                  <motion.div
+                  <m.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
@@ -450,10 +450,10 @@ export default function SplitPanel() {
                     <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                       {siteConfig.about.description[0]}
                     </p>
-                  </motion.div>
+                  </m.div>
 
                   {/* Download Button */}
-                  <motion.a
+                  <m.a
                     href={siteConfig.about.resume}
                     download
                     initial={{ y: 20, opacity: 0 }}
@@ -465,14 +465,14 @@ export default function SplitPanel() {
                   >
                     <Download className="w-4 h-4 group-hover:animate-bounce" />
                     Download Full Resume (PDF)
-                  </motion.a>
+                  </m.a>
                 </div>
 
                 {/* Decorative corner */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-tr-full" />
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>
@@ -530,7 +530,7 @@ function TiltCard({ children, intensity = 1 }: { children: React.ReactNode; inte
   }
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -545,6 +545,6 @@ function TiltCard({ children, intensity = 1 }: { children: React.ReactNode; inte
       <div style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }} className="h-full">
         {children}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

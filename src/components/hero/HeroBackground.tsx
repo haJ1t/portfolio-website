@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 interface Star {
@@ -54,7 +54,7 @@ export default function HeroBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Gradient Orbs - Reduced animation on mobile */}
-      <motion.div
+      <m.div
         className="absolute top-0 left-1/4 w-96 h-96 bg-primary-400/20 rounded-full blur-3xl"
         animate={prefersReducedMotion ? {} : {
           scale: [1, 1.2, 1],
@@ -69,7 +69,7 @@ export default function HeroBackground() {
         }}
         style={{ willChange: 'transform, opacity' }}
       />
-      <motion.div
+      <m.div
         className="absolute top-1/3 right-1/4 w-80 h-80 bg-purple-400/20 rounded-full blur-3xl"
         animate={prefersReducedMotion ? {} : {
           scale: [1.2, 1, 1.2],
@@ -84,7 +84,7 @@ export default function HeroBackground() {
         }}
         style={{ willChange: 'transform, opacity' }}
       />
-      <motion.div
+      <m.div
         className="absolute bottom-0 right-1/3 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl"
         animate={prefersReducedMotion ? {} : {
           scale: [1, 1.3, 1],
@@ -103,7 +103,7 @@ export default function HeroBackground() {
       {/* Stars */}
       <div className="absolute inset-0">
         {stars.map((star) => (
-          <motion.div
+          <m.div
             key={star.id}
             className="absolute rounded-full bg-white"
             style={{
@@ -129,7 +129,7 @@ export default function HeroBackground() {
       {/* Shooting Stars - Disabled on mobile for performance */}
       {!isMobile && !prefersReducedMotion && (
         <>
-          <motion.div
+          <m.div
             className="absolute top-1/4 left-0 w-1 h-1 bg-white rounded-full"
             animate={{
               x: [0, 300],
@@ -147,7 +147,7 @@ export default function HeroBackground() {
               willChange: 'transform, opacity',
             }}
           />
-          <motion.div
+          <m.div
             className="absolute top-1/3 right-0 w-1 h-1 bg-white rounded-full"
             animate={{
               x: [0, -250],

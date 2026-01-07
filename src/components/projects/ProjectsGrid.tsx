@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import ProjectCard from './ProjectCard';
 
@@ -53,7 +53,7 @@ export default function ProjectsGrid() {
 
   return (
     <div className={`relative ${isMobile ? 'w-full' : ''}`}>
-      <motion.div
+      <m.div
         className={`${isMobile ? 'grid grid-cols-1 gap-4 w-full' : 'flex gap-3 justify-center items-center'}`}
         layout={!isMobile}
       >
@@ -69,7 +69,7 @@ export default function ProjectsGrid() {
             expandedId={expandedId}
           />
         ))}
-      </motion.div>
+      </m.div>
     </div>
   );
 }

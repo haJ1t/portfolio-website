@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import ProjectsGrid from './ProjectsGrid';
 
@@ -22,7 +22,7 @@ export default function ProjectsSection() {
       {/* Floating Dots - Hydration Safe - REMOVED (moved to unified) */}
 
       {/* Section Header */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -42,14 +42,14 @@ export default function ProjectsSection() {
         </p>
 
         {/* Decorative line */}
-        <motion.div
+        <m.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mt-6"
         />
-      </motion.div>
+      </m.div>
 
       {/* Projects Grid - Tam Genişlik */}
       <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6">

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -87,7 +87,7 @@ export default function ProjectCard({
           onClick={onCollapse}
         >
           {/* Backdrop Blur */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -95,7 +95,7 @@ export default function ProjectCard({
           />
 
           {/* Popup Card */}
-          <motion.div
+          <m.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -165,13 +165,13 @@ export default function ProjectCard({
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>,
         document.body
       )}
 
       {/* Normal Card */}
-      <motion.div
+      <m.div
         className={`relative ${isMobile && expandedId && expandedId !== project.id ? 'opacity-50 blur-sm' : ''}`}
         onMouseEnter={!isMobile ? onExpand : undefined}
         onMouseLeave={!isMobile ? onCollapse : undefined}
@@ -185,7 +185,7 @@ export default function ProjectCard({
           },
         }}
       >
-        <motion.div
+        <m.div
           className={`relative rounded-3xl overflow-hidden cursor-pointer bg-gray-900 shadow-2xl ${isMobile ? 'w-full' : ''}`}
           animate={!isMobile ? {
             width: isExpanded ? expandedWidth : collapsedWidth,
@@ -223,7 +223,7 @@ export default function ProjectCard({
           {/* Content Container */}
           <div className={`relative ${isMobile ? 'h-[280px]' : 'h-full'} flex flex-col justify-between ${isMobile ? 'p-4' : 'p-6'}`}>
             {/* Number Badge */}
-            <motion.div
+            <m.div
               className="self-start"
               animate={!isMobile && !prefersReducedMotion ? {
                 scale: isExpanded ? 0.85 : 1,
@@ -245,14 +245,14 @@ export default function ProjectCard({
                   {index + 1}
                 </span>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Bottom Content */}
             <div>
               <AnimatePresence mode="wait">
                 {/* Collapsed State - Only on desktop */}
                 {!isMobile && !isExpanded && (
-                  <motion.div
+                  <m.div
                     key="collapsed"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -265,7 +265,7 @@ export default function ProjectCard({
                     >
                       {project.title}
                     </h3>
-                  </motion.div>
+                  </m.div>
                 )}
 
                 {/* Mobile Collapsed State - Show title and first tag */}
@@ -291,7 +291,7 @@ export default function ProjectCard({
 
                 {/* Expanded State - Only on desktop (mobile uses popup) */}
                 {!isMobile && isExpanded && (
-                  <motion.div
+                  <m.div
                     key="expanded"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -303,32 +303,32 @@ export default function ProjectCard({
                     }}
                     className="space-y-3"
                   >
-                    <motion.h3
+                    <m.h3
                       className="text-3xl font-bold text-white leading-tight"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
                     >
                       {project.title}
-                    </motion.h3>
+                    </m.h3>
 
-                    <motion.p
+                    <m.p
                       className="text-white/90 text-base leading-relaxed"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
                     >
                       {project.description}
-                    </motion.p>
+                    </m.p>
 
-                    <motion.div
+                    <m.div
                       className="flex flex-wrap gap-2"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.3 }}
                     >
                       {project.tags.map((tag, idx) => (
-                        <motion.span
+                        <m.span
                           key={tag}
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
@@ -336,11 +336,11 @@ export default function ProjectCard({
                           className="px-3 py-1.5 text-sm font-medium bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20"
                         >
                           {tag}
-                        </motion.span>
+                        </m.span>
                       ))}
-                    </motion.div>
+                    </m.div>
 
-                    <motion.button
+                    <m.button
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 }}
@@ -350,8 +350,8 @@ export default function ProjectCard({
                     >
                       <span>View Project</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </motion.button>
-                  </motion.div>
+                    </m.button>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
@@ -359,7 +359,7 @@ export default function ProjectCard({
 
           {/* Glow Effect - Only on desktop */}
           {!isMobile && (
-            <motion.div
+            <m.div
               className="absolute inset-0 rounded-3xl pointer-events-none"
               animate={prefersReducedMotion ? {} : {
                 boxShadow: isExpanded
@@ -370,8 +370,8 @@ export default function ProjectCard({
               style={{ willChange: 'box-shadow' }}
             />
           )}
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </>
   );
 }

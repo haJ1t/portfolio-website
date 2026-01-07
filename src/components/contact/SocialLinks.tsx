@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Github, Linkedin, Twitter, Instagram, Mail } from 'lucide-react';
 
 export default function SocialLinks() {
@@ -45,7 +45,7 @@ export default function SocialLinks() {
   return (
     <div className="space-y-3">
       {socials.map((social, index) => (
-        <motion.a
+        <m.a
           key={social.label}
           href={social.href}
           target="_blank"
@@ -63,7 +63,7 @@ export default function SocialLinks() {
           className={`flex items-center gap-3.5 p-4 bg-gradient-to-r ${social.gradient} ${social.hoverGradient} rounded-xl transition-all group relative overflow-hidden`}
         >
           {/* Animated Background Shine */}
-          <motion.div
+          <m.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
             initial={{ x: '-100%' }}
             whileHover={{ x: '100%' }}
@@ -71,13 +71,13 @@ export default function SocialLinks() {
           />
 
           {/* Icon */}
-          <motion.div
+          <m.div
             whileHover={{ rotate: 360 }}
             transition={{ duration: 0.6 }}
             className="w-11 h-11 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0 relative z-10"
           >
             <social.icon className="w-5 h-5 text-white" />
-          </motion.div>
+          </m.div>
 
           {/* Label */}
           <span className="text-white font-semibold text-base relative z-10">
@@ -85,7 +85,7 @@ export default function SocialLinks() {
           </span>
 
           {/* Arrow */}
-          <motion.svg
+          <m.svg
             className="w-5 h-5 text-white/70 ml-auto relative z-10"
             fill="none"
             stroke="currentColor"
@@ -94,8 +94,8 @@ export default function SocialLinks() {
             whileHover={{ x: 5 }}
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </motion.svg>
-        </motion.a>
+          </m.svg>
+        </m.a>
       ))}
     </div>
   );

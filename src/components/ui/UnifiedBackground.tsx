@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
@@ -26,7 +26,7 @@ export default function UnifiedBackground() {
             {/* Atmospheric Glows - disabled on mobile */}
             {!isMobile && (
                 <>
-                    <motion.div
+                    <m.div
                         animate={prefersReducedMotion ? {} : {
                             opacity: [0.15, 0.25, 0.15],
                             scale: [1, 1.1, 1],
@@ -35,7 +35,7 @@ export default function UnifiedBackground() {
                         className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-purple-900/10 rounded-full blur-[120px]"
                         style={{ willChange: 'opacity, transform' }}
                     />
-                    <motion.div
+                    <m.div
                         animate={prefersReducedMotion ? {} : {
                             opacity: [0.1, 0.2, 0.1],
                             scale: [1, 1.1, 1],

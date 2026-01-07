@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
@@ -91,64 +91,64 @@ export default function ContactForm() {
       {/* Success Toast Notification */}
       <AnimatePresence>
         {showSuccess && (
-          <motion.div
+          <m.div
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-full mx-4"
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 p-5 rounded-2xl shadow-2xl backdrop-blur-sm border border-white/20 flex items-center gap-4"
             >
               {/* Icon with Animation */}
-              <motion.div
+              <m.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                 className="w-11 h-11 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0"
               >
                 <CheckCircle className="w-6 h-6 text-white" />
-              </motion.div>
+              </m.div>
 
               {/* Text */}
               <div className="flex-1">
-                <motion.h3
+                <m.h3
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
                   className="text-white font-bold text-base"
                 >
                   Message Sent! 🎉
-                </motion.h3>
-                <motion.p
+                </m.h3>
+                <m.p
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
                   className="text-white/90 text-sm"
                 >
                   I'll get back to you soon!
-                </motion.p>
+                </m.p>
               </div>
 
               {/* Progress Bar */}
-              <motion.div
+              <m.div
                 className="absolute bottom-0 left-0 h-1 bg-white/30 rounded-full"
                 initial={{ width: "100%" }}
                 animate={{ width: "0%" }}
                 transition={{ duration: 4, ease: "linear" }}
               />
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Error Toast Notification */}
       <AnimatePresence>
         {error && (
-          <motion.div
+          <m.div
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
@@ -159,12 +159,12 @@ export default function ContactForm() {
               <AlertCircle className="w-6 h-6 text-white" />
               <p className="text-white font-medium">{error}</p>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Form */}
-      <motion.form
+      <m.form
         ref={form}
         onSubmit={handleSubmit}
         className="p-7 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl space-y-5"
@@ -172,7 +172,7 @@ export default function ContactForm() {
         {/* Hidden inputs for EmailJS template variables if needed */}
         <input type="hidden" name="to_name" value="Halit" />
         {/* Name Input */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -190,10 +190,10 @@ export default function ContactForm() {
             className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
             placeholder="John Doe"
           />
-        </motion.div>
+        </m.div>
 
         {/* Email Input */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -211,10 +211,10 @@ export default function ContactForm() {
             className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
             placeholder="john@example.com"
           />
-        </motion.div>
+        </m.div>
 
         {/* Message Textarea */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -232,10 +232,10 @@ export default function ContactForm() {
             className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
             placeholder="Tell me about your project..."
           />
-        </motion.div>
+        </m.div>
 
         {/* Submit Button */}
-        <motion.button
+        <m.button
           type="submit"
           disabled={isSubmitting}
           initial={{ opacity: 0, y: 20 }}
@@ -247,7 +247,7 @@ export default function ContactForm() {
           className="w-full py-3.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:shadow-2xl hover:shadow-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
         >
           {isSubmitting ? (
-            <motion.div
+            <m.div
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
@@ -258,8 +258,8 @@ export default function ContactForm() {
               <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </>
           )}
-        </motion.button>
-      </motion.form>
+        </m.button>
+      </m.form>
     </>
   );
 }

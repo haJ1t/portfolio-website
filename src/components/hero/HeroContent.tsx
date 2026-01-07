@@ -1,12 +1,11 @@
 'use client';
 
-import { motion, cubicBezier, useReducedMotion, type Variants } from 'framer-motion';
+import { m, cubicBezier, useReducedMotion, type Variants } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { useEffect, useState } from 'react';
 
 export default function HeroContent() {
-  // ✅ Typed easing (TS-safe)
   const heroEase = cubicBezier(0.6, 0.05, 0.01, 0.9);
   const prefersReducedMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
@@ -23,8 +22,8 @@ export default function HeroContent() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2, // Keep stagger for rhythm
-        delayChildren: 0.1, // Faster start
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
       },
     },
   };
@@ -45,12 +44,10 @@ export default function HeroContent() {
     hidden: {
       opacity: 0,
       scale: 0.8,
-      // filter: 'blur(0px)', // Removed for performance
     },
     visible: {
       opacity: 1,
       scale: 1,
-      // filter: 'blur(0px)',
     },
   };
 
@@ -63,7 +60,7 @@ export default function HeroContent() {
   return (
     <section className="relative w-full h-full flex flex-col justify-between overflow-hidden">
       {/* MAIN HERO */}
-      <motion.div
+      <m.div
         className="flex-1 flex items-center justify-center text-center px-4"
         variants={containerVariants}
         initial="hidden"
@@ -71,15 +68,15 @@ export default function HeroContent() {
       >
         <div className="space-y-6">
           {/* NAME */}
-          <motion.div
+          <m.div
             variants={nameVariants}
             transition={{
               duration: 1.2,
-              ease: heroEase, // ✅ GUARANTEED SAFE
+              ease: heroEase,
             }}
             className="relative"
           >
-            <motion.h1
+            <m.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
               initial={isMobile ? {} : { backgroundPosition: '0% 50%' }}
               animate={isMobile ? {} : {
@@ -102,7 +99,7 @@ export default function HeroContent() {
 
               {/* Glow - Disabled on mobile */}
               {!isMobile && !prefersReducedMotion && (
-                <motion.span
+                <m.span
                   aria-hidden
                   className="absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-blue-600/15 to-indigo-700/15 blur-2xl"
                   initial={{ opacity: 0 }}
@@ -115,11 +112,11 @@ export default function HeroContent() {
                   style={{ willChange: 'opacity' }}
                 />
               )}
-            </motion.h1>
+            </m.h1>
 
             {/* PARTICLES - Disabled on mobile for performance */}
             {!isMobile && !prefersReducedMotion && [...Array(8)].map((_, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 className="absolute w-1 h-1 bg-blue-500/30 rounded-full"
                 initial={{
@@ -142,32 +139,28 @@ export default function HeroContent() {
                 style={{ left: '50%', top: '50%', willChange: 'transform, opacity' }}
               />
             ))}
-          </motion.div>
+          </m.div>
 
           {/* TITLE */}
-          <motion.h2
+          <m.h2
             variants={itemVariants}
             className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-700 dark:text-gray-300"
           >
             {siteConfig.hero.title}
-          </motion.h2>
+          </m.h2>
 
           {/* DESCRIPTION */}
-          <motion.p
-            variants={itemVariants}
-            initial="visible" // LCP Optimization: Render immediately
-            className="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed"
-          >
+          <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
             {siteConfig.hero.description}
-          </motion.p>
+          </p>
 
           {/* SOCIALS */}
-          <motion.div
+          <m.div
             variants={itemVariants}
             className="flex justify-center gap-4 pt-10"
           >
             {socialLinks.map((social, i) => (
-              <motion.a
+              <m.a
                 key={i}
                 href={social.href}
                 target="_blank"
@@ -177,33 +170,33 @@ export default function HeroContent() {
                 className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors"
               >
                 <social.icon className="w-5 h-5" />
-              </motion.a>
+              </m.a>
             ))}
-          </motion.div>
+          </m.div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* SCROLL INDICATOR - Simplified on mobile */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
         className="pb-8 md:pb-12 flex justify-center flex-shrink-0"
       >
-        <motion.a
+        <m.a
           href="#about"
           animate={isMobile ? {} : { y: [0, 8, 0] }}
           transition={isMobile ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
           <div className="w-6 h-10 rounded-full border-2 border-gray-400/30 flex items-start justify-center p-2">
-            <motion.div
+            <m.div
               className="w-1.5 h-1.5 bg-gray-400/50 rounded-full"
               animate={isMobile ? {} : { y: [0, 12, 0] }}
               transition={isMobile ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
           </div>
-        </motion.a>
-      </motion.div>
+        </m.a>
+      </m.div>
     </section>
   );
 }

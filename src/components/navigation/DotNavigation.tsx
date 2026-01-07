@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 interface NavItem {
@@ -86,7 +86,7 @@ export default function DotNavigation() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.nav
+        <m.nav
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -50 }}
@@ -98,7 +98,7 @@ export default function DotNavigation() {
               const isActive = activeSection === item.id;
 
               return (
-                <motion.button
+                <m.button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   className="group relative flex items-center cursor-pointer"
@@ -108,7 +108,7 @@ export default function DotNavigation() {
                   whileHover={{ x: 4 }}
                 >
                   {/* Dot */}
-                  <motion.div
+                  <m.div
                     className="relative"
                     animate={{
                       x: isActive ? 8 : 0,
@@ -117,12 +117,12 @@ export default function DotNavigation() {
                   >
                     {/* Outer Glow Ring (only when active) */}
                     {isActive && !prefersReducedMotion && (
-                      <motion.div
+                      <m.div
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         className="absolute inset-0 -m-2"
                       >
-                        <motion.div
+                        <m.div
                           animate={{
                             scale: [1, 1.3, 1],
                             opacity: [0.5, 0.8, 0.5],
@@ -135,23 +135,23 @@ export default function DotNavigation() {
                           className="w-8 h-8 rounded-full bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] blur-md"
                           style={{ willChange: 'transform, opacity' }}
                         />
-                      </motion.div>
+                      </m.div>
                     )}
 
                     {/* Main Dot */}
-                    <motion.div
+                    <m.div
                       animate={{
                         scale: isActive ? 1.4 : 1,
                       }}
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                       className={`w-3 h-3 rounded-full relative ${isActive
-                          ? 'bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] shadow-lg shadow-[#0077B6]/50'
-                          : 'bg-white/30 group-hover:bg-white/60'
+                        ? 'bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] shadow-lg shadow-[#0077B6]/50'
+                        : 'bg-white/30 group-hover:bg-white/60'
                         } transition-colors duration-300`}
                     >
                       {/* Inner Shine - disabled if reduced motion */}
                       {isActive && !prefersReducedMotion && (
-                        <motion.div
+                        <m.div
                           animate={{
                             scale: [0.5, 1, 0.5],
                             opacity: [0.8, 0.3, 0.8],
@@ -165,11 +165,11 @@ export default function DotNavigation() {
                           style={{ willChange: 'transform, opacity' }}
                         />
                       )}
-                    </motion.div>
-                  </motion.div>
+                    </m.div>
+                  </m.div>
 
                   {/* Label (appears on hover or when active) */}
-                  <motion.span
+                  <m.span
                     initial={{ opacity: 0, x: -10 }}
                     animate={{
                       opacity: isActive ? 1 : 0,
@@ -178,18 +178,18 @@ export default function DotNavigation() {
                     whileHover={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2 }}
                     className={`absolute left-8 ml-4 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap pointer-events-none ${isActive
-                        ? 'bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-[#0077B6]/30'
-                        : 'bg-white/10 backdrop-blur-md text-white/80 border border-white/20'
+                      ? 'bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-[#0077B6]/30'
+                      : 'bg-white/10 backdrop-blur-md text-white/80 border border-white/20'
                       }`}
                   >
                     {item.label}
-                  </motion.span>
+                  </m.span>
 
                   {/* Connecting Line (subtle) */}
                   {index < navItems.length - 1 && (
                     <div className="absolute left-1.5 top-6 w-px h-6 bg-gradient-to-b from-white/20 to-transparent" />
                   )}
-                </motion.button>
+                </m.button>
               );
             })}
           </div>
@@ -197,7 +197,7 @@ export default function DotNavigation() {
           {/* Decorative Background Blur - disabled if reduced motion */}
           {!prefersReducedMotion && (
             <div className="absolute inset-0 -z-10 blur-3xl opacity-30">
-              <motion.div
+              <m.div
                 animate={{
                   scale: [1, 1.2, 1],
                   opacity: [0.3, 0.5, 0.3],
@@ -212,7 +212,7 @@ export default function DotNavigation() {
               />
             </div>
           )}
-        </motion.nav>
+        </m.nav>
       )}
     </AnimatePresence>
   );

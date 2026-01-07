@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 export default function SpaceField() {
@@ -93,7 +93,7 @@ export default function SpaceField() {
                 // Twinkling Stars (Mid-ground)
                 if (star.type === 'twinkle') {
                     return (
-                        <motion.div
+                        <m.div
                             key={star.id}
                             className="absolute rounded-full bg-white"
                             style={{
@@ -120,7 +120,7 @@ export default function SpaceField() {
                 // Travel Stars (Foreground movement effect)
                 if (star.type === 'travel') {
                     return (
-                        <motion.div
+                        <m.div
                             key={star.id}
                             className="absolute rounded-full bg-blue-100"
                             style={{

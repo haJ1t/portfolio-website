@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import AboutHero from './AboutHero';
 import SplitPanel from './SplitPanel';
