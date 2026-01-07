@@ -13,7 +13,7 @@
   --color-primary-900: #0c4a6e;
 
   --font-display: ui-sans-serif, system-ui, sans-serif;
-  
+
   --breakpoint-3xl: 1920px;
 }
 
@@ -42,8 +42,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -51,6 +56,7 @@
     transform: translateY(30px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -58,8 +64,15 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @layer utilities {
@@ -103,10 +116,23 @@
 }
 
 @keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(20px, -50px) scale(1.1); }
-  50% { transform: translate(-20px, 20px) scale(0.9); }
-  75% { transform: translate(50px, 50px) scale(1.05); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(20px, -50px) scale(1.1);
+  }
+
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  75% {
+    transform: translate(50px, 50px) scale(1.05);
+  }
 }
 
 .animate-blob {
@@ -123,14 +149,16 @@
 }
 
 /* Disable heavy animations on mobile and when reduced motion is preferred */
-@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+@media (prefers-reduced-motion: reduce),
+(max-width: 767px) {
+
   .animate-blob,
   .animate-float,
   .animate-fade-in,
   .animate-slide-up {
     animation: none !important;
   }
-  
+
   /* Disable transitions that might cause jank */
   * {
     scroll-behavior: auto !important;
@@ -141,4 +169,21 @@
 .gpu-accelerated {
   will-change: transform, opacity;
   transform: translateZ(0);
+}
+
+@keyframes gradient-xy {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-xy {
+  animation: gradient-xy 5s ease infinite;
+  background-size: 200% 100%;
 }

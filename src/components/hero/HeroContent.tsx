@@ -1,22 +1,10 @@
 'use client';
 
-import { m, cubicBezier, useReducedMotion, type Variants } from 'framer-motion';
+import { m, type Variants } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { siteConfig } from '@/config/site';
-import { useEffect, useState } from 'react';
 
 export default function HeroContent() {
-  const heroEase = cubicBezier(0.6, 0.05, 0.01, 0.9);
-  const prefersReducedMotion = useReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -40,17 +28,6 @@ export default function HeroContent() {
     },
   };
 
-  const nameVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.8,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-    },
-  };
-
   const socialLinks = [
     { icon: Github, href: siteConfig.social.github },
     { icon: Linkedin, href: siteConfig.social.linkedin },
@@ -66,54 +43,53 @@ export default function HeroContent() {
           <div className="relative">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold relative">
               <span
-                className="bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent"
-                style={{ backgroundPosition: '0% 50%', backgroundSize: isMobile ? '100% 100%' : '200% 100%' }}
+                className="bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent bg-[length:100%_100%] md:bg-[length:200%_100%] md:animate-gradient-xy motion-reduce:animate-none"
               >
                 {siteConfig.hero.name}
               </span>
 
-              {/* Glow - Disabled on mobile */}
-              {!isMobile && !prefersReducedMotion && (
-                <m.span
-                  aria-hidden
-                  className="absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-blue-600/15 to-indigo-700/15 blur-2xl"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 0.4, 0] }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                  style={{ willChange: 'opacity' }}
-                />
-              )}
+              {/* Glow - Hidden on mobile, visible on desktop */}
+              <m.span
+                aria-hidden
+                className="hidden md:block absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-blue-600/15 to-indigo-700/15 blur-2xl motion-reduce:hidden"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.4, 0] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                style={{ willChange: 'opacity' }}
+              />
             </h1>
 
-            {/* PARTICLES - Disabled on mobile for performance */}
-            {!isMobile && !prefersReducedMotion && [...Array(8)].map((_, i) => (
-              <m.div
-                key={i}
-                className="absolute w-1 h-1 bg-blue-500/30 rounded-full"
-                initial={{
-                  x: Math.cos((i * Math.PI * 2) / 8) * 100,
-                  y: Math.sin((i * Math.PI * 2) / 8) * 100,
-                  opacity: 1,
-                  scale: 1,
-                }}
-                animate={{
-                  x: 0,
-                  y: 0,
-                  opacity: 0,
-                  scale: 0,
-                }}
-                transition={{
-                  duration: 1.5,
-                  delay: i * 0.1,
-                  ease: 'easeOut',
-                }}
-                style={{ left: '50%', top: '50%', willChange: 'transform, opacity' }}
-              />
-            ))}
+            {/* PARTICLES - Hidden on mobile */}
+            <div className="hidden md:block motion-reduce:hidden">
+              {[...Array(8)].map((_, i) => (
+                <m.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-blue-500/30 rounded-full"
+                  initial={{
+                    x: Math.cos((i * Math.PI * 2) / 8) * 100,
+                    y: Math.sin((i * Math.PI * 2) / 8) * 100,
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  animate={{
+                    x: 0,
+                    y: 0,
+                    opacity: 0,
+                    scale: 0,
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    delay: i * 0.1,
+                    ease: 'easeOut',
+                  }}
+                  style={{ left: '50%', top: '50%', willChange: 'transform, opacity' }}
+                />
+              ))}
+            </div>
           </div>
 
           {/* TITLE - Static for LCP */}
@@ -151,26 +127,21 @@ export default function HeroContent() {
         </div>
       </div>
 
-      {/* SCROLL INDICATOR - Simplified on mobile */}
+      {/* SCROLL INDICATOR - Simplified CSS animation */}
       <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
         className="pb-8 md:pb-12 flex justify-center flex-shrink-0"
       >
-        <m.a
+        <a
           href="#about"
-          animate={isMobile ? {} : { y: [0, 8, 0] }}
-          transition={isMobile ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="animate-bounce motion-reduce:animate-none"
         >
           <div className="w-6 h-10 rounded-full border-2 border-gray-400/30 flex items-start justify-center p-2">
-            <m.div
-              className="w-1.5 h-1.5 bg-gray-400/50 rounded-full"
-              animate={isMobile ? {} : { y: [0, 12, 0] }}
-              transition={isMobile ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            />
+            <div className="w-1.5 h-1.5 bg-gray-400/50 rounded-full" />
           </div>
-        </m.a>
+        </a>
       </m.div>
     </section>
   );
