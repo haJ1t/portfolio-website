@@ -3,11 +3,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import LazyCursorTrail from "@/components/effects/LazyCursorTrail";
+import MotionProvider from "@/components/providers/MotionProvider";
 
 const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
   variable: '--font-inter',
+  preload: true,
 });
 
 // Basic metadata URL using local host for dev context, user should update for prod
@@ -93,12 +95,14 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         {/* Preconnect to external resources for faster loading */}
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.emailjs.com" />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <LazyCursorTrail />
-        {children}
+        <MotionProvider>
+          <LazyCursorTrail />
+          {children}
+        </MotionProvider>
       </body>
     </html>
   );

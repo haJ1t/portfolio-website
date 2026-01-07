@@ -1,9 +1,8 @@
-import DotNavigation from '@/components/navigation/DotNavigation';
 import Hero from '@/components/hero/Hero';
-// import { AboutSection } from '@/components/about'; // Static import removed
 import dynamic from 'next/dynamic';
-import UnifiedBackground from '@/components/ui/UnifiedBackground';
 import { siteConfig } from '@/config/site';
+import LazyUnifiedBackground from '@/components/ui/LazyUnifiedBackground';
+import LazyDotNavigation from '@/components/navigation/LazyDotNavigation';
 
 // Lazy load non-critical sections for better code splitting
 const ProjectsSection = dynamic(() => import('@/components/projects/ProjectsSection'), {
@@ -39,8 +38,8 @@ export default function Home() {
     sameAs: [
       siteConfig.social.github,
       siteConfig.social.linkedin,
-      "https://twitter.com/haltozger", // Add if available
-      "https://instagram.com/haltozger", // Add if available
+      "https://twitter.com/haltozger",
+      "https://instagram.com/haltozger",
     ],
     knowsAbout: [
       "Software Engineering",
@@ -69,8 +68,8 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <UnifiedBackground />
-      <DotNavigation />
+      <LazyUnifiedBackground />
+      <LazyDotNavigation />
       <main className="min-h-screen">
         <Hero />
         <AboutSection />

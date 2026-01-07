@@ -4,9 +4,8 @@ const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
     optimizeCss: true,
-    /*   turbopack: {
-        root: process.cwd(),
-      }, */
+    // Enable inlining of CSS for critical path optimization
+    inlineCss: true,
   },
   compiler: {
     // Remove console.logs in production
@@ -21,6 +20,10 @@ const nextConfig: NextConfig = {
     ],
     // Enable modern image formats
     formats: ['image/avif', 'image/webp'],
+    // Reduce default quality for smaller file sizes
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    minimumCacheTTL: 60 * 60 * 24 * 365, // 1 year
   },
   async headers() {
     return [
