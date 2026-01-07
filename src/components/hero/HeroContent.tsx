@@ -81,11 +81,11 @@ export default function HeroContent() {
           >
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
-              initial={{ backgroundPosition: '0% 50%' }}
-              animate={{
+              initial={isMobile ? {} : { backgroundPosition: '0% 50%' }}
+              animate={isMobile ? {} : {
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
               }}
-              transition={{
+              transition={isMobile ? {} : {
                 backgroundPosition: {
                   duration: 5,
                   repeat: Infinity,
@@ -95,18 +95,18 @@ export default function HeroContent() {
             >
               <span
                 className="bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent"
-                style={{ backgroundSize: '200% 100%' }}
+                style={{ backgroundSize: isMobile ? '100% 100%' : '200% 100%' }}
               >
                 {siteConfig.hero.name}
               </span>
 
-              {/* Glow - Reduced on mobile */}
-              {!isMobile && (
+              {/* Glow - Disabled on mobile */}
+              {!isMobile && !prefersReducedMotion && (
                 <motion.span
                   aria-hidden
                   className="absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-blue-600/15 to-indigo-700/15 blur-2xl"
                   initial={{ opacity: 0 }}
-                  animate={prefersReducedMotion ? { opacity: 0 } : { opacity: [0, 0.4, 0] }}
+                  animate={{ opacity: [0, 0.4, 0] }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
@@ -117,14 +117,14 @@ export default function HeroContent() {
               )}
             </motion.h1>
 
-            {/* PARTICLES - Reduced on mobile */}
-            {!prefersReducedMotion && [...Array(isMobile ? 4 : 8)].map((_, i) => (
+            {/* PARTICLES - Disabled on mobile for performance */}
+            {!isMobile && !prefersReducedMotion && [...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-1 bg-blue-500/30 rounded-full"
                 initial={{
-                  x: Math.cos((i * Math.PI * 2) / (isMobile ? 4 : 8)) * 100,
-                  y: Math.sin((i * Math.PI * 2) / (isMobile ? 4 : 8)) * 100,
+                  x: Math.cos((i * Math.PI * 2) / 8) * 100,
+                  y: Math.sin((i * Math.PI * 2) / 8) * 100,
                   opacity: 1,
                   scale: 1,
                 }}
@@ -182,7 +182,7 @@ export default function HeroContent() {
         </div>
       </motion.div>
 
-      {/* SCROLL INDICATOR */}
+      {/* SCROLL INDICATOR - Simplified on mobile */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -191,14 +191,14 @@ export default function HeroContent() {
       >
         <motion.a
           href="#about"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          animate={isMobile ? {} : { y: [0, 8, 0] }}
+          transition={isMobile ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
           <div className="w-6 h-10 rounded-full border-2 border-gray-400/30 flex items-start justify-center p-2">
             <motion.div
               className="w-1.5 h-1.5 bg-gray-400/50 rounded-full"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              animate={isMobile ? {} : { y: [0, 12, 0] }}
+              transition={isMobile ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
           </div>
         </motion.a>

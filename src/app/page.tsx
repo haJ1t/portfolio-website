@@ -5,11 +5,14 @@ import dynamic from 'next/dynamic';
 import UnifiedBackground from '@/components/ui/UnifiedBackground';
 import { siteConfig } from '@/config/site';
 
+// Lazy load non-critical sections for better code splitting
 const ProjectsSection = dynamic(() => import('@/components/projects/ProjectsSection'), {
-  loading: () => <div className="min-h-screen" />,
+  loading: () => <div className="min-h-screen" aria-label="Loading projects..." />,
 });
 
-const ContactSection = dynamic(() => import('@/components/contact/ContactSection'));
+const ContactSection = dynamic(() => import('@/components/contact/ContactSection'), {
+  loading: () => <div className="min-h-[50vh]" aria-label="Loading contact form..." />,
+});
 
 export default function Home() {
   const jsonLd = {

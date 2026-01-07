@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  /* config options here */
+  // Performance optimizations
+  experimental: {
+    optimizeCss: true,
+  },
+  compiler: {
+    // Remove console.logs in production
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   images: {
     remotePatterns: [
       {
@@ -10,6 +16,8 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       },
     ],
+    // Enable modern image formats
+    formats: ['image/avif', 'image/webp'],
   },
   async headers() {
     return [

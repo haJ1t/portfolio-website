@@ -1,12 +1,21 @@
 'use client';
 
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-import { Code2, Brain, Zap, Rocket, Award, ArrowUpRight, Sparkles, X, Download, Mail, Phone, MapPin } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Code2, Brain, Zap, Rocket, ArrowUpRight, Sparkles, X, Download, Mail, Phone, MapPin } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
 import { siteConfig } from '@/config/site';
 
 export default function SplitPanel() {
   const [showResume, setShowResume] = useState(false);
+  const [isMobile, setIsMobile] = useState(true); // Default true to prevent flash
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const stats = [
     { label: 'Years Experience', value: '5+', icon: Zap },
@@ -22,6 +31,9 @@ export default function SplitPanel() {
     { name: 'AI/ML (scikit-learn)', level: 90 },
     { name: 'PostgreSQL & SQL', level: 90 },
   ];
+
+  // Disable animations on mobile
+  const shouldAnimate = !isMobile && !prefersReducedMotion;
 
   return (
     <>
@@ -41,12 +53,14 @@ export default function SplitPanel() {
                 {/* Subtle gradient on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-700" />
 
-                {/* Scanline effect */}
-                <motion.div
-                  animate={{ y: ['0%', '100%'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 pointer-events-none"
-                />
+                {/* Scanline effect - disabled on mobile */}
+                {shouldAnimate && (
+                  <motion.div
+                    animate={{ y: ['0%', '100%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                    className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 pointer-events-none"
+                  />
+                )}
 
                 <div className="relative flex flex-col items-center">
                   {/* Minimal Avatar */}
@@ -82,12 +96,15 @@ export default function SplitPanel() {
                       👨‍💻
                     </div>
 
-                    {/* Pulse ring */}
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="absolute inset-0 rounded-full border border-blue-500/30"
-                    />
+                    {/* Pulse ring - disabled on mobile */}
+                    {shouldAnimate && (
+                      <motion.div
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="absolute inset-0 rounded-full border border-blue-500/30"
+                        style={{ willChange: 'transform, opacity' }}
+                      />
+                    )}
                   </motion.div>
 
                   {/* Name */}
@@ -205,8 +222,8 @@ export default function SplitPanel() {
                       </h3>
                     </div>
                     <motion.div
-                      animate={{ rotate: [0, 90, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
+                      animate={shouldAnimate ? { rotate: [0, 90, 0] } : {}}
+                      transition={shouldAnimate ? { duration: 3, repeat: Infinity } : {}}
                     >
                       <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
                     </motion.div>
@@ -289,12 +306,15 @@ export default function SplitPanel() {
                             transition={{ duration: 1.5, delay: index * 0.1, ease: 'easeOut' }}
                             className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full relative"
                           >
-                            {/* Shimmer */}
-                            <motion.div
-                              animate={{ x: ['-100%', '200%'] }}
-                              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                            />
+                            {/* Shimmer - disabled on mobile */}
+                            {shouldAnimate && (
+                              <motion.div
+                                animate={{ x: ['-100%', '200%'] }}
+                                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                                style={{ willChange: 'transform' }}
+                              />
+                            )}
                           </motion.div>
                         </div>
                       </div>
@@ -460,9 +480,14 @@ export default function SplitPanel() {
   );
 }
 
-// Minimal 3D Tilt
+// Minimal 3D Tilt - Disabled on mobile for performance
 function TiltCard({ children, intensity = 1 }: { children: React.ReactNode; intensity?: number }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -474,7 +499,7 @@ function TiltCard({ children, intensity = 1 }: { children: React.ReactNode; inte
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-5 * intensity, 5 * intensity]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile) return;
 
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
@@ -495,6 +520,15 @@ function TiltCard({ children, intensity = 1 }: { children: React.ReactNode; inte
     y.set(0);
   };
 
+  // On mobile, render without 3D transforms
+  if (isMobile) {
+    return (
+      <div className="relative flex-1 h-full">
+        {children}
+      </div>
+    );
+  }
+
   return (
     <motion.div
       ref={ref}
@@ -504,6 +538,7 @@ function TiltCard({ children, intensity = 1 }: { children: React.ReactNode; inte
         rotateX,
         rotateY,
         transformStyle: 'preserve-3d',
+        willChange: 'transform',
       }}
       className="relative flex-1"
     >

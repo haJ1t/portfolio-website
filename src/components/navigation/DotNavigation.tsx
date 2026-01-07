@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 interface NavItem {
@@ -11,6 +11,7 @@ interface NavItem {
 export default function DotNavigation() {
   const [activeSection, setActiveSection] = useState('home');
   const [isVisible, setIsVisible] = useState(false); // Navbar görünürlüğü
+  const prefersReducedMotion = useReducedMotion();
 
   const navItems: NavItem[] = [
     { id: 'home', label: 'Home' },
@@ -47,7 +48,7 @@ export default function DotNavigation() {
         const section = sections[i];
         if (section.element) {
           const sectionTop = section.element.offsetTop;
-          
+
           if (scrollPosition >= sectionTop - 100) {
             currentSection = section.id;
           }
@@ -95,7 +96,7 @@ export default function DotNavigation() {
           <div className="flex flex-col gap-6">
             {navItems.map((item, index) => {
               const isActive = activeSection === item.id;
-              
+
               return (
                 <motion.button
                   key={item.id}
@@ -115,7 +116,7 @@ export default function DotNavigation() {
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
                     {/* Outer Glow Ring (only when active) */}
-                    {isActive && (
+                    {isActive && !prefersReducedMotion && (
                       <motion.div
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
@@ -132,6 +133,7 @@ export default function DotNavigation() {
                             ease: "easeInOut"
                           }}
                           className="w-8 h-8 rounded-full bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] blur-md"
+                          style={{ willChange: 'transform, opacity' }}
                         />
                       </motion.div>
                     )}
@@ -142,14 +144,13 @@ export default function DotNavigation() {
                         scale: isActive ? 1.4 : 1,
                       }}
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      className={`w-3 h-3 rounded-full relative ${
-                        isActive
+                      className={`w-3 h-3 rounded-full relative ${isActive
                           ? 'bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] shadow-lg shadow-[#0077B6]/50'
                           : 'bg-white/30 group-hover:bg-white/60'
-                      } transition-colors duration-300`}
+                        } transition-colors duration-300`}
                     >
-                      {/* Inner Shine */}
-                      {isActive && (
+                      {/* Inner Shine - disabled if reduced motion */}
+                      {isActive && !prefersReducedMotion && (
                         <motion.div
                           animate={{
                             scale: [0.5, 1, 0.5],
@@ -161,6 +162,7 @@ export default function DotNavigation() {
                             ease: "easeInOut"
                           }}
                           className="absolute inset-0 rounded-full bg-white/50"
+                          style={{ willChange: 'transform, opacity' }}
                         />
                       )}
                     </motion.div>
@@ -175,11 +177,10 @@ export default function DotNavigation() {
                     }}
                     whileHover={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2 }}
-                    className={`absolute left-8 ml-4 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap pointer-events-none ${
-                      isActive
+                    className={`absolute left-8 ml-4 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap pointer-events-none ${isActive
                         ? 'bg-gradient-to-r from-[#006994] via-[#0077B6] to-[#00B4D8] text-white shadow-lg shadow-[#0077B6]/30'
                         : 'bg-white/10 backdrop-blur-md text-white/80 border border-white/20'
-                    }`}
+                      }`}
                   >
                     {item.label}
                   </motion.span>
@@ -193,21 +194,24 @@ export default function DotNavigation() {
             })}
           </div>
 
-          {/* Decorative Background Blur */}
-          <div className="absolute inset-0 -z-10 blur-3xl opacity-30">
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="w-32 h-32 bg-gradient-to-r from-[#006994] to-[#0077B6] rounded-full"
-            />
-          </div>
+          {/* Decorative Background Blur - disabled if reduced motion */}
+          {!prefersReducedMotion && (
+            <div className="absolute inset-0 -z-10 blur-3xl opacity-30">
+              <motion.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="w-32 h-32 bg-gradient-to-r from-[#006994] to-[#0077B6] rounded-full"
+                style={{ willChange: 'transform, opacity' }}
+              />
+            </div>
+          )}
         </motion.nav>
       )}
     </AnimatePresence>
