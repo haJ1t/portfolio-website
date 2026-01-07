@@ -1,6 +1,6 @@
 import DotNavigation from '@/components/navigation/DotNavigation';
 import Hero from '@/components/hero/Hero';
-import { AboutSection } from '@/components/about';
+// import { AboutSection } from '@/components/about'; // Static import removed
 import dynamic from 'next/dynamic';
 import UnifiedBackground from '@/components/ui/UnifiedBackground';
 import { siteConfig } from '@/config/site';
@@ -8,6 +8,10 @@ import { siteConfig } from '@/config/site';
 // Lazy load non-critical sections for better code splitting
 const ProjectsSection = dynamic(() => import('@/components/projects/ProjectsSection'), {
   loading: () => <div className="min-h-screen" aria-label="Loading projects..." />,
+});
+
+const AboutSection = dynamic(() => import('@/components/about').then(mod => mod.AboutSection), {
+  loading: () => <div className="min-h-screen" aria-label="Loading about section..." />,
 });
 
 const ContactSection = dynamic(() => import('@/components/contact/ContactSection'), {

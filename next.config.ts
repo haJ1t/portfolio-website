@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
     optimizeCss: true,
+    /*   turbopack: {
+        root: process.cwd(),
+      }, */
   },
   compiler: {
     // Remove console.logs in production

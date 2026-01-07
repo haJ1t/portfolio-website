@@ -93,8 +93,6 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         {/* Preconnect to external resources for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.emailjs.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>

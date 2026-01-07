@@ -226,8 +226,20 @@ export default function ProjectCard({
               } : {}}
               transition={{ duration: 0.3 }}
             >
-              <div className={`${isMobile ? 'w-10 h-10' : (isExpanded ? 'w-12 h-12' : 'w-14 h-14')} rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300`}>
-                <span className={`text-white font-bold ${isMobile ? 'text-base' : (isExpanded ? 'text-lg' : 'text-xl')}`}>{index + 1}</span>
+              <div
+                className={`w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-transform duration-300 origin-center`}
+                style={{
+                  transform: isMobile ? 'scale(0.7)' : (isExpanded ? 'scale(0.85)' : 'scale(1)')
+                }}
+              >
+                <span
+                  className={`text-white font-bold text-xl transition-transform duration-300`}
+                  style={{
+                    transform: isMobile ? 'scale(0.8)' : (isExpanded ? 'scale(0.9)' : 'scale(1)')
+                  }}
+                >
+                  {index + 1}
+                </span>
               </div>
             </motion.div>
 

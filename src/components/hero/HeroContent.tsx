@@ -23,8 +23,8 @@ export default function HeroContent() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.2, // Keep stagger for rhythm
+        delayChildren: 0.1, // Faster start
       },
     },
   };
@@ -45,12 +45,12 @@ export default function HeroContent() {
     hidden: {
       opacity: 0,
       scale: 0.8,
-      filter: 'blur(0px)', // Blur'u tamamen kaldır
+      // filter: 'blur(0px)', // Removed for performance
     },
     visible: {
       opacity: 1,
       scale: 1,
-      filter: 'blur(0px)',
+      // filter: 'blur(0px)',
     },
   };
 
@@ -155,6 +155,7 @@ export default function HeroContent() {
           {/* DESCRIPTION */}
           <motion.p
             variants={itemVariants}
+            initial="visible" // LCP Optimization: Render immediately
             className="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed"
           >
             {siteConfig.hero.description}
