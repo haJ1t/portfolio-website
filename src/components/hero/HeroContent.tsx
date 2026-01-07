@@ -60,39 +60,14 @@ export default function HeroContent() {
   return (
     <section className="relative w-full h-full flex flex-col justify-between overflow-hidden">
       {/* MAIN HERO */}
-      <m.div
-        className="flex-1 flex items-center justify-center text-center px-4"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      <div className="flex-1 flex items-center justify-center text-center px-4">
         <div className="space-y-6">
-          {/* NAME */}
-          <m.div
-            variants={nameVariants}
-            transition={{
-              duration: 1.2,
-              ease: heroEase,
-            }}
-            className="relative"
-          >
-            <m.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
-              initial={isMobile ? {} : { backgroundPosition: '0% 50%' }}
-              animate={isMobile ? {} : {
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              }}
-              transition={isMobile ? {} : {
-                backgroundPosition: {
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: 'linear',
-                },
-              }}
-            >
+          {/* NAME - Static for LCP */}
+          <div className="relative">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold relative">
               <span
                 className="bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent"
-                style={{ backgroundSize: isMobile ? '100% 100%' : '200% 100%' }}
+                style={{ backgroundPosition: '0% 50%', backgroundSize: isMobile ? '100% 100%' : '200% 100%' }}
               >
                 {siteConfig.hero.name}
               </span>
@@ -112,7 +87,7 @@ export default function HeroContent() {
                   style={{ willChange: 'opacity' }}
                 />
               )}
-            </m.h1>
+            </h1>
 
             {/* PARTICLES - Disabled on mobile for performance */}
             {!isMobile && !prefersReducedMotion && [...Array(8)].map((_, i) => (
@@ -139,24 +114,23 @@ export default function HeroContent() {
                 style={{ left: '50%', top: '50%', willChange: 'transform, opacity' }}
               />
             ))}
-          </m.div>
+          </div>
 
-          {/* TITLE */}
-          <m.h2
-            variants={itemVariants}
-            className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-700 dark:text-gray-300"
-          >
+          {/* TITLE - Static for LCP */}
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-700 dark:text-gray-300">
             {siteConfig.hero.title}
-          </m.h2>
+          </h2>
 
-          {/* DESCRIPTION */}
+          {/* DESCRIPTION - Static for LCP */}
           <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
             {siteConfig.hero.description}
           </p>
 
-          {/* SOCIALS */}
+          {/* SOCIALS - Can be animated */}
           <m.div
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
             className="flex justify-center gap-4 pt-10"
           >
             {socialLinks.map((social, i) => (
@@ -168,13 +142,14 @@ export default function HeroContent() {
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
                 className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-600 hover:text-white transition-colors"
+                style={{ willChange: 'transform' }}
               >
                 <social.icon className="w-5 h-5" />
               </m.a>
             ))}
           </m.div>
         </div>
-      </m.div>
+      </div>
 
       {/* SCROLL INDICATOR - Simplified on mobile */}
       <m.div
