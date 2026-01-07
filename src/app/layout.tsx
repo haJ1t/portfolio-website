@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
-import CursorTrail from "@/components/effects/CursorTrail";
+import LazyCursorTrail from "@/components/effects/LazyCursorTrail";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -97,7 +97,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <CursorTrail />
+        <LazyCursorTrail />
         {children}
       </body>
     </html>

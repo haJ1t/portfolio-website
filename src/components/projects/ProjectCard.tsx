@@ -116,6 +116,7 @@ export default function ProjectCard({
                   fill
                   sizes="(max-width: 768px) 100vw, 800px"
                   priority
+                  quality={85}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40" />
               </div>
@@ -211,7 +212,10 @@ export default function ProjectCard({
               alt={project.title}
               className="object-cover"
               fill
+              // Optimized sizes for stack layout vs mobile grid
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              loading="lazy"
+              quality={80}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
           </div>
