@@ -3,6 +3,7 @@
 import { m, useMotionValue, useSpring, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Code2, Brain, Zap, Rocket, ArrowUpRight, Sparkles, X, Download, Mail, Phone, MapPin } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { siteConfig } from '@/config/site';
 
 export default function SplitPanel() {
@@ -16,6 +17,25 @@ export default function SplitPanel() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Prevent body scroll when popup is open
+  useEffect(() => {
+    if (showResume) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [showResume]);
 
   const stats = [
     { label: 'Years Experience', value: '5+', icon: Zap },
@@ -327,155 +347,176 @@ export default function SplitPanel() {
         </div>
       </div>
 
-      {/* RESUME POP-UP MODAL */}
-      <AnimatePresence>
-        {showResume && (
-          <>
-            {/* Backdrop */}
-            <m.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowResume(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            >
-              {/* Modal */}
+      {/* RESUME POP-UP MODAL - Rendered via Portal for proper z-index */}
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {showResume && (
+            <>
+              {/* Backdrop */}
               <m.div
-                initial={{ scale: 0.8, opacity: 0, rotateX: -15 }}
-                animate={{ scale: 1, opacity: 1, rotateX: 0 }}
-                exit={{ scale: 0.8, opacity: 0, rotateX: 15 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                onClick={(e) => e.stopPropagation()}
-                className="relative w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden"
-                style={{ transformStyle: 'preserve-3d' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setShowResume(false)}
+                className="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999] flex items-center justify-center p-4"
               >
-                {/* Gradient Header */}
-                <div className="relative h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 overflow-hidden">
-                  {/* Animated circles */}
-                  <m.div
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                    className="absolute -top-10 -left-10 w-40 h-40 bg-white/20 rounded-full blur-3xl"
-                  />
-                  <m.div
-                    animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
-                    transition={{ duration: 4, repeat: Infinity, delay: 2 }}
-                    className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/20 rounded-full blur-3xl"
-                  />
+                {/* Modal - Glassmorphism Design */}
+                <m.div
+                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-full max-w-2xl max-h-[90vh] rounded-2xl overflow-hidden z-[10000]"
+                >
+                  {/* Glassmorphism Container */}
+                  <div className="relative bg-[#0a0a1a]/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                    {/* Background Gradient Effects */}
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                      <div className="absolute -top-24 -left-24 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl" />
+                      <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl" />
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl" />
+                    </div>
 
-                  {/* Close button */}
-                  <m.button
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setShowResume(false)}
-                    className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full transition-colors z-10"
-                  >
-                    <X className="w-5 h-5 text-white" />
-                  </m.button>
+                    {/* Gradient Top Border */}
+                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
 
-                  {/* Avatar */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-                    <m.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                      className="relative w-24 h-24 rounded-full bg-white dark:bg-gray-800 p-1 shadow-xl"
+                    {/* Close Button */}
+                    <m.button
+                      whileHover={{ scale: 1.1, rotate: 90 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setShowResume(false)}
+                      className="absolute top-4 right-4 p-2 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-full border border-white/10 transition-colors z-20"
                     >
-                      <div className="w-full h-full rounded-full bg-gradient-to-br from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center text-4xl">
-                        👨‍💻
-                      </div>
-                      {/* Online indicator */}
+                      <X className="w-5 h-5 text-white/80" />
+                    </m.button>
+
+                    {/* Content */}
+                    <div className="relative p-6 sm:p-8 overflow-y-auto max-h-[85vh]" style={{ scrollbarWidth: 'thin' }}>
+                      {/* Header with Avatar */}
                       <m.div
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"
-                      />
-                    </m.div>
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                        className="flex flex-col items-center mb-6"
+                      >
+                        {/* Avatar */}
+                        <div className="relative w-20 h-20 mb-4">
+                          {/* Rotating gradient border */}
+                          <svg className="absolute inset-0 w-full h-full -rotate-90">
+                            <m.circle
+                              cx="50%"
+                              cy="50%"
+                              r="45%"
+                              fill="none"
+                              stroke="url(#resumeGradient)"
+                              strokeWidth="2"
+                              strokeDasharray="283"
+                              initial={{ strokeDashoffset: 283 }}
+                              animate={{ strokeDashoffset: 0 }}
+                              transition={{ duration: 1.5, ease: 'easeOut' }}
+                            />
+                            <defs>
+                              <linearGradient id="resumeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#3b82f6" />
+                                <stop offset="50%" stopColor="#8b5cf6" />
+                                <stop offset="100%" stopColor="#ec4899" />
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                          <div className="absolute inset-2 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-3xl border border-white/10">
+                            👨‍💻
+                          </div>
+                        </div>
+
+                        {/* Name & Title */}
+                        <h2 className="text-2xl font-bold text-white mb-1 tracking-tight">
+                          {siteConfig.name}
+                        </h2>
+                        <p className="text-sm text-gray-400 mb-3">
+                          {siteConfig.title}
+                        </p>
+
+                        {/* Decorative line */}
+                        <m.div
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.6, delay: 0.3 }}
+                          className="w-16 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full"
+                        />
+                      </m.div>
+
+                      {/* Contact Info Cards */}
+                      <m.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6"
+                      >
+                        {siteConfig.contact.info
+                          .filter((item) => item.icon !== 'Phone')
+                          .map((item, i) => {
+                            const IconComponent = item.icon === 'Mail' ? Mail : item.icon === 'Phone' ? Phone : MapPin;
+                            return (
+                              <m.a
+                                key={i}
+                                href={item.href || undefined}
+                                whileHover={{ y: -2, borderColor: 'rgba(139, 92, 246, 0.3)' }}
+                                className="flex items-center gap-3 p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 group cursor-pointer transition-all"
+                              >
+                                <div className="p-2 rounded-lg bg-white/5">
+                                  <IconComponent className="w-4 h-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                                </div>
+                                <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
+                                  {item.value}
+                                </span>
+                              </m.a>
+                            );
+                          })}
+                      </m.div>
+
+                      {/* Summary Section */}
+                      <m.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                        className="mb-6 p-4 rounded-xl bg-white/5 border border-white/10"
+                      >
+                        <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                          <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+                          Professional Summary
+                        </h3>
+                        <p className="text-sm text-gray-400 leading-relaxed pl-3 border-l border-white/10">
+                          {siteConfig.about.description[0]}
+                        </p>
+                      </m.div>
+
+                      {/* Download Button */}
+                      <m.a
+                        href={siteConfig.about.resume}
+                        download
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.4 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full py-3.5 px-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all group"
+                      >
+                        <Download className="w-4 h-4 group-hover:animate-bounce" />
+                        Download Full Resume
+                      </m.a>
+                    </div>
+
+                    {/* Bottom Gradient Border */}
+                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
                   </div>
-                </div>
-
-                {/* Content */}
-                <div className="pt-16 pb-8 px-8">
-                  {/* Name & Title */}
-                  <m.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-center mb-6"
-                  >
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                      {siteConfig.name}
-                    </h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {siteConfig.title}
-                    </p>
-                  </m.div>
-
-                  {/* Contact Info */}
-                  <m.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"
-                  >
-                    {siteConfig.contact.info.map((item, i) => {
-                      const IconComponent = item.icon === 'Mail' ? Mail : item.icon === 'Phone' ? Phone : MapPin;
-                      return (
-                        <m.a
-                          key={i}
-                          href={item.href || undefined}
-                          whileHover={{ y: -2 }}
-                          className="flex items-center gap-2 p-3 rounded-lg bg-gray-100 dark:bg-gray-800 group cursor-pointer"
-                        >
-                          <IconComponent className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors" />
-                          <span className="text-xs text-gray-700 dark:text-gray-300">
-                            {item.value}
-                          </span>
-                        </m.a>
-                      );
-                    })}
-                  </m.div>
-
-                  {/* Summary */}
-                  <m.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                    className="mb-6"
-                  >
-                    <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                      <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
-                      Professional Summary
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                      {siteConfig.about.description[0]}
-                    </p>
-                  </m.div>
-
-                  {/* Download Button */}
-                  <m.a
-                    href={siteConfig.about.resume}
-                    download
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-lg font-medium flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-shadow group"
-                  >
-                    <Download className="w-4 h-4 group-hover:animate-bounce" />
-                    Download Full Resume (PDF)
-                  </m.a>
-                </div>
-
-                {/* Decorative corner */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-tr-full" />
+                </m.div>
               </m.div>
-            </m.div>
-          </>
-        )}
-      </AnimatePresence>
+            </>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }

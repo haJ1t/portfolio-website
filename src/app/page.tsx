@@ -1,7 +1,7 @@
 import Hero from '@/components/hero/Hero';
 import dynamic from 'next/dynamic';
 import { siteConfig } from '@/config/site';
-import LazyUnifiedBackground from '@/components/ui/LazyUnifiedBackground';
+import UnifiedBackground from '@/components/ui/UnifiedBackground';
 import LazyDotNavigation from '@/components/navigation/LazyDotNavigation';
 
 // Lazy load non-critical sections for better code splitting
@@ -68,7 +68,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <LazyUnifiedBackground />
+      <UnifiedBackground />
       <LazyDotNavigation />
       <main className="min-h-screen">
         <Hero />
